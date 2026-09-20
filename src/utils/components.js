@@ -63,70 +63,70 @@ function getControlRows(guildId, tempData) {
   const isSoundboardDisabled = tempData?.soundboardDisabled || false;
   const hasSaved = tempData ? db.hasSavedConfig(guildId, tempData.ownerId) : false;
 
-  // Button 1: Lock/Unlock - emoji + name
+  // Button 1: Lock/Unlock - transparent (Secondary)
   const lockBtn = new ButtonBuilder()
     .setCustomId('vc_toggle_lock')
     .setEmoji(em.lock)
     .setLabel('Lock')
-    .setStyle(isLocked ? ButtonStyle.Success : ButtonStyle.Secondary);
+    .setStyle(ButtonStyle.Secondary);
 
-  // Button 2: Hide/Show - emoji + name
+  // Button 2: Hide/Show - transparent
   const hideBtn = new ButtonBuilder()
     .setCustomId('vc_toggle_hide')
     .setEmoji(em.hide)
     .setLabel('Hide')
-    .setStyle(isHidden ? ButtonStyle.Success : ButtonStyle.Secondary);
+    .setStyle(ButtonStyle.Secondary);
 
-  // Button 3: Kick User - emoji + name
+  // Button 3: Kick User - transparent
   const kickBtn = new ButtonBuilder()
     .setCustomId('vc_kick')
     .setEmoji(em.kick)
     .setLabel('Kick')
-    .setStyle(ButtonStyle.Danger);
+    .setStyle(ButtonStyle.Secondary);
 
-  // Button 4: Rename - emoji + name
+  // Button 4: Rename - transparent
   const renameBtn = new ButtonBuilder()
     .setCustomId('vc_rename')
     .setEmoji(em.rename)
     .setLabel('Rename')
-    .setStyle(ButtonStyle.Primary);
+    .setStyle(ButtonStyle.Secondary);
 
-  // Button 5: User Limit - emoji + name
+  // Button 5: User Limit - transparent
   const limitBtn = new ButtonBuilder()
     .setCustomId('vc_limit')
     .setEmoji(em.limit)
     .setLabel('Limit')
-    .setStyle(ButtonStyle.Primary);
+    .setStyle(ButtonStyle.Secondary);
 
   const row1 = new ActionRowBuilder().addComponents(lockBtn, hideBtn, kickBtn, renameBtn, limitBtn);
 
-  // Button 6: Claim - emoji + name
+  // Button 6: Claim - transparent
   const claimBtn = new ButtonBuilder()
     .setCustomId('vc_claim')
     .setEmoji(em.claim)
     .setLabel('Claim')
-    .setStyle(ButtonStyle.Success);
+    .setStyle(ButtonStyle.Secondary);
 
-  // Button 7: Soundboard - emoji + name
+  // Button 7: Soundboard - transparent
   const sbBtn = new ButtonBuilder()
     .setCustomId('vc_toggle_soundboard')
     .setEmoji(em.soundboard)
     .setLabel('Soundboard')
-    .setStyle(isSoundboardDisabled ? ButtonStyle.Success : ButtonStyle.Secondary);
+    .setStyle(ButtonStyle.Secondary);
 
-  // Button 8: Save/Reset - emoji + name
+  // Button 8: Save/Reset - transparent
   const saveBtn = new ButtonBuilder()
     .setCustomId('vc_save_reset')
     .setEmoji(em.save)
     .setLabel('Save')
-    .setStyle(hasSaved ? ButtonStyle.Danger : ButtonStyle.Secondary);
+    .setStyle(ButtonStyle.Secondary);
 
-  // Button 9: Call Admins - emoji + name
+  // Button 9: Call Admins - transparent
   const callBtn = new ButtonBuilder()
     .setCustomId('vc_call_admins')
     .setEmoji(em.calladmin)
     .setLabel('Call Admin')
-    .setStyle(ButtonStyle.Danger);
+    .setStyle(ButtonStyle.Secondary);
 
   const row2 = new ActionRowBuilder().addComponents(claimBtn, sbBtn, saveBtn, callBtn);
 
