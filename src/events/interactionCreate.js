@@ -19,14 +19,14 @@ module.exports = {
       return;
     }
 
-    // StringSelectMenu - Kick
+    // StringSelectMenu - Kick - owner only (strict)
     if (interaction.isStringSelectMenu()) {
       if (interaction.customId === 'vc_kick_select') {
         const vc = interaction.member.voice.channel;
         if (!vc || !db.isTemp(vc.id)) { await interaction.reply({ content: `${config.emojis.error} You must be inside your temporary voice channel.`, ephemeral: true}); return; }
         const temp = db.getTemp(vc.id);
-        if (temp.ownerId !== interaction.user.id && !interaction.member.permissions.has(PermissionFlagsBits.ManageChannels)) {
-          await interaction.reply({ content: `${config.emojis.error} You are not the owner.`, ephemeral: true}); return;
+        if (temp.ownerId !== interaction.user.id) {
+          await interaction.reply({ content: `${config.emojis.error} Only the voice owner (<@${temp.ownerId}>) can use this.`, ephemeral: true}); return;
         }
         const targetId = interaction.values[0];
         if (targetId === interaction.user.id) { await interaction.reply({ content: `${config.emojis.error} You cannot kick yourself.`, ephemeral: true}); return; }
@@ -64,11 +64,12 @@ module.exports = {
       }
       const temp = db.getTemp(vc.id);
       const isOwner = temp.ownerId === interaction.user.id;
-      const isAdmin = interaction.member.permissions.has(PermissionFlagsBits.ManageChannels);
 
+      // Strict owner priority: only owner (or claimer after Claim) can use buttons
+      // Normal members in voice cannot press buttons - bot will not allow any change
       const ownerOnly = ['vc_toggle_lock','vc_toggle_hide','vc_kick','vc_rename','vc_limit','vc_toggle_soundboard','vc_save_reset','vc_call_admins'];
-      if (ownerOnly.includes(id) && !isOwner && !isAdmin) {
-        await interaction.reply({ content: `${config.emojis.error} This button is only for the owner <@${temp.ownerId}>. Use Claim button if owner left.`, ephemeral: true }); return;
+      if (ownerOnly.includes(id) && !isOwner) {
+        await interaction.reply({ content: `${config.emojis.error} Only the voice owner (<@${temp.ownerId}>) can use this button. Normal members cannot control the channel.`, ephemeral: true }); return;
       }
 
       try {
@@ -247,13 +248,13 @@ module.exports = {
       return;
     }
 
-    // Modals
+    // Modals - owner only (strict)
     if (interaction.isModalSubmit()) {
       const vc = interaction.member.voice.channel;
       if (!vc || !db.isTemp(vc.id)) { await interaction.reply({ content: `${config.emojis.error} You must be inside your temporary channel.`, ephemeral: true}); return; }
       const temp = db.getTemp(vc.id);
-      if (temp.ownerId !== interaction.user.id && !interaction.member.permissions.has(PermissionFlagsBits.ManageChannels)) {
-        await interaction.reply({ content: `${config.emojis.error} You are not the owner.`, ephemeral: true}); return;
+      if (temp.ownerId !== interaction.user.id) {
+        await interaction.reply({ content: `${config.emojis.error} Only the voice owner (<@${temp.ownerId}>) can use this.`, ephemeral: true}); return;
       }
       try {
         switch (interaction.customId) {

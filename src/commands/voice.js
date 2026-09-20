@@ -1,15 +1,14 @@
 const { SlashCommandBuilder, PermissionFlagsBits, EmbedBuilder } = require('discord.js');
 const db = require('../database');
 const config = require('../config');
-const { isAdmin } = require('../utils/permissions');
 
 function requireOwner(interaction) {
   const vc = interaction.member.voice.channel;
   if (!vc) return { error: 'You must be inside a temporary voice channel you own.' };
   if (!db.isTemp(vc.id)) return { error: 'This is not a temporary voice channel. Join your private channel first.' };
   const temp = db.getTemp(vc.id);
-  if (temp.ownerId !== interaction.user.id && !isAdmin(interaction.member)) {
-    return { error: `You are not the owner of this channel. Current owner: <@${temp.ownerId}> - use \`/voice claim\` if the owner left.` };
+  if (temp.ownerId !== interaction.user.id) {
+    return { error: `Only the voice owner (<@${temp.ownerId}>) can use this. Normal members cannot control the channel.` };
   }
   return { vc, temp };
 }
