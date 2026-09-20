@@ -20,9 +20,9 @@ const customEmojis = fileConfig.customEmojis || {};
 
 module.exports = {
   defaultSettings: {
-    channelName: defaults.channelName || '⌞ {username} ⌝',
-    channelNameLocked: defaults.channelNameLocked || '🔒 {username}',
-    channelNameHidden: defaults.channelNameHidden || '🙈 {username}',
+    channelName: defaults.channelName || "{username}'s Channel !",
+    channelNameLocked: defaults.channelNameLocked || "🔒 {username}'s Channel !",
+    channelNameHidden: defaults.channelNameHidden || "🙈 {username}'s Channel !",
     userLimit: defaults.userLimit ?? 0,
     bitrate: defaults.bitrate ?? 64000,
     categoryId: defaults.categoryId ?? null,

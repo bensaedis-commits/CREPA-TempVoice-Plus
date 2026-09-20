@@ -1,8 +1,8 @@
 {
   "defaultSettings": {
-    "channelName": "⌞ {username} ⌝",
-    "channelNameLocked": "🔒 {username}",
-    "channelNameHidden": "🙈 {username}",
+    "channelName": "{username}'s Channel !",
+    "channelNameLocked": "🔒 {username}'s Channel !",
+    "channelNameHidden": "🙈 {username}'s Channel !",
     "userLimit": 0,
     "bitrate": 64000,
     "categoryId": null,
