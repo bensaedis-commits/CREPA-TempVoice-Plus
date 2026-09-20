@@ -1,0 +1,30 @@
+{
+  "name": "crepa-tempvoice-plus",
+  "version": "1.0.0",
+  "description": "CREPA Temp Voice Bot - نسخة طبق الأصل من Plus Bot بكل مميزاته",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "deploy": "node deploy-commands.js"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "tempvoice",
+    "plus",
+    "crepa",
+    "voice",
+    "join-to-create"
+  ],
+  "author": "CREPA",
+  "license": "MIT",
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "defaultSettings": {
+    "channelName": "⌞ {username} ⌝",
+    "channelNameLocked": "🔒 {username}",
+    "channelNameHidden": "🙈 {username}",
+    "userLimit": 0,
+    "bitrate": 64000,
+    "categoryId": null,
+    "controlChannelId": null,
+    "logChannelId": null,
+    "maxChannelsPerUser": 1,
+    "deleteDelayMs": 0,
+    "allowRename": true,
+    "allowLimit": true,
+    "allowLock": true,
+    "allowHide": true,
+    "allowBitrate": true,
+    "allowRegion": false,
+    "interfaceEnabled": true
+  },
+  "emojis": {
+    "success": "✅",
+    "error": "❌",
+    "loading": "⏳",
+    "voice": "🔊",
+    "lock": "🔒",
+    "unlock": "🔓",
+    "hide": "🙈",
+    "show": "👁️",
+    "rename": "✏️",
+    "limit": "👥",
+    "kick": "👢",
+    "permit": "✅",
+    "reject": "🚫",
+    "transfer": "👑",
+    "claim": "👑",
+    "info": "ℹ️",
+    "delete": "🗑️",
+    "panel": "🎛️",
+    "crepa": "⚡"
+  },
+  "colors": {
+    "primary": "#5865F2",
+    "success": "#57F287",
+    "error": "#ED4245",
+    "warning": "#FEE75C",
+    "panel": "#2B2D31"
+  },
+  "staffRoleId": "1548676119249821816",
+  "bannerUrl": null,
+  "customEmojis": {
+    "_comment": "ارفع 9 إيموجيات في سيرفر CREPA ثم ضع IDs هنا - سيستخدمها البوت تلقائياً في الأزرار والـ Embed",
+    "lock": null,
+    "hide": null,
+    "kick": null,
+    "rename": null,
+    "limit": null,
+    "claim": null,
+    "soundboard": null,
+    "save": null,
+    "calladmin": null
+  }
+}
