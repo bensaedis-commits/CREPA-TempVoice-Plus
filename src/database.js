@@ -28,10 +28,21 @@ function load() {
     if (!data.guilds) data.guilds = {};
     if (!data.tempChannels) data.tempChannels = {};
     if (!data.savedConfigs) data.savedConfigs = {};
-    // migrate old guilds
+    // migrate old guilds - fix name template to Name's Channel !
     for (const gid of Object.keys(data.guilds)) {
       if (data.guilds[gid].staffRoleId === undefined) data.guilds[gid].staffRoleId = "1548676119249821816";
       if (data.guilds[gid].bannerUrl === undefined) data.guilds[gid].bannerUrl = null;
+      // Fix old channel names (garbled or old template) to new Name's Channel !
+      const oldNames = ["⌞ {username} ⌝", "�Oz {username} �O?", "dY\"' {username}\"", "dYT^ {username}"];
+      if (!data.guilds[gid].channelName || oldNames.includes(data.guilds[gid].channelName) || data.guilds[gid].channelName.includes("�")) {
+        data.guilds[gid].channelName = "{username}'s Channel !";
+      }
+      if (!data.guilds[gid].channelNameLocked || data.guilds[gid].channelNameLocked.includes("�") || oldNames.includes(data.guilds[gid].channelNameLocked)) {
+        data.guilds[gid].channelNameLocked = "🔒 {username}'s Channel !";
+      }
+      if (!data.guilds[gid].channelNameHidden || data.guilds[gid].channelNameHidden.includes("�") || oldNames.includes(data.guilds[gid].channelNameHidden)) {
+        data.guilds[gid].channelNameHidden = "🙈 {username}'s Channel !";
+      }
       if (!data.guilds[gid].jtcCategories) {
         data.guilds[gid].jtcCategories = {
           "1549444850800140379": "1549444775785140254",
@@ -142,6 +153,20 @@ class Database {
     }
     if (changed) this._persist();
     if (g.categoryId === undefined) g.categoryId = null;
+    // Migrate old channel names to new Name's Channel !
+    const oldNames = ["⌞ {username} ⌝", "�Oz {username} �O?"];
+    if (!g.channelName || g.channelName.includes("�") || oldNames.includes(g.channelName)) {
+      g.channelName = require('./config').defaultSettings.channelName;
+      this._persist();
+    }
+    if (!g.channelNameLocked || g.channelNameLocked.includes("�")) {
+      g.channelNameLocked = require('./config').defaultSettings.channelNameLocked;
+      this._persist();
+    }
+    if (!g.channelNameHidden || g.channelNameHidden.includes("�")) {
+      g.channelNameHidden = require('./config').defaultSettings.channelNameHidden;
+      this._persist();
+    }
     if (!g.channelName) g.channelName = require('./config').defaultSettings.channelName;
     if (!g.staffRoleId) g.staffRoleId = "1548676119249821816";
     if (g.bannerUrl === undefined) g.bannerUrl = null;

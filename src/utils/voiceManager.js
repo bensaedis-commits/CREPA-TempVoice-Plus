@@ -209,29 +209,30 @@ async function autoTransferOwner(guild, channel) {
   try {
     const temp = db.getTemp(channel.id);
     if (!temp) return;
-    if (channel.members.has(temp.ownerId)) return; // owner still inside
-    if (channel.members.size === 0) return; // will be deleted
-    // Pick the member who has been in channel longest (first in collection)
-    const nextOwner = channel.members.first();
-    if (!nextOwner || nextOwner.user.bot) {
-      // Find first non-bot
-      const human = channel.members.filter(m=>!m.user.bot).first();
-      if (!human) return;
-      db.setOwner(channel.id, human.id);
-      try { await channel.permissionOverwrites.edit(human.id, { ManageChannels: true, Connect: true, ViewChannel: true }).catch(()=>{}); } catch {}
-      await updatePanel(guild, channel);
-      return;
-    }
+    if (channel.members.has(temp.ownerId)) return;
+    if (channel.members.size === 0) return;
+    const nextOwner = channel.members.filter(m=>!m.user.bot).first() || channel.members.first();
+    if (!nextOwner || nextOwner.user.bot) return;
     db.setOwner(channel.id, nextOwner.id);
     try { await channel.permissionOverwrites.edit(nextOwner.id, { ManageChannels: true, Connect: true, ViewChannel: true }).catch(()=>{}); } catch {}
+    // Rename to new owner's name (or saved name) - Plus behavior
+    try {
+      const g = db.getGuild(guild.id);
+      const saved = db.getSavedConfig(guild.id, nextOwner.id);
+      const tmpl = saved?.name || g.channelName || "{username}'s Channel !";
+      const { renderTemplate } = require('./template');
+      // Find GuildMember for render
+      let memberForName = nextOwner;
+      try { memberForName = await guild.members.fetch(nextOwner.id).catch(()=>nextOwner); } catch {}
+      const newName = renderTemplate(tmpl, memberForName, channel, guild);
+      if (newName && newName !== channel.name) await channel.setName(newName).catch(()=>{});
+    } catch {}
     await updatePanel(guild, channel);
-    // Notify in voice chat
     const fs = require('fs'); const path = require('path');
     const bannerPath = path.join(__dirname, '..', '..', 'assets', 'banner.png');
     const hasBanner = fs.existsSync(bannerPath);
     const files = hasBanner ? [{ attachment: bannerPath, name: 'banner.png' }] : [];
-    const target = channel;
-    await target.send({ content: `👑 Auto-transferred ownership to ${nextOwner} (owner left)`, files }).catch(()=>{});
+    await channel.send({ content: `👑 Auto-transferred ownership to ${nextOwner} — Channel renamed to **${channel.name}**`, files }).catch(()=>{});
   } catch (e) { console.warn('[autoTransferOwner]', e.message); }
 }
 

@@ -140,7 +140,16 @@ module.exports = {
             if (vc.members.has(temp.ownerId)) { await interaction.reply({ content: `${config.emojis.error} Owner <@${temp.ownerId}> is still inside - cannot claim.`, ephemeral: true}); break; }
             db.setOwner(vc.id, interaction.user.id);
             try { await vc.permissionOverwrites.edit(interaction.user.id, { ManageChannels: true, Connect: true, ViewChannel: true, Speak: true }).catch(()=>{}); } catch {}
-            await interaction.reply({ content: `👑 You are now the owner of ${vc}! Control all 9 buttons.`, ephemeral: false });
+            // Rename channel to new owner's name (or saved name) - like Plus
+            try {
+              const g = db.getGuild(interaction.guild.id);
+              const saved = db.getSavedConfig(interaction.guild.id, interaction.user.id);
+              const tmpl = saved?.name || g.channelName || "{username}'s Channel !";
+              const { renderTemplate } = require('../utils/template');
+              const newName = renderTemplate(tmpl, interaction.member, vc, interaction.guild);
+              if (newName && newName !== vc.name) await vc.setName(newName).catch(()=>{});
+            } catch {}
+            await interaction.reply({ content: `👑 You are now the owner of ${vc}! Channel renamed to your name. Control all 9 buttons.`, ephemeral: false });
             await refreshPanel(interaction, vc);
             break;
           }
