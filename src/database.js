@@ -50,6 +50,8 @@ function load() {
     for (const cid of Object.keys(data.tempChannels)) {
       if (data.tempChannels[cid].soundboardDisabled === undefined) data.tempChannels[cid].soundboardDisabled = false;
       if (data.tempChannels[cid].lastCallAdminAt === undefined) data.tempChannels[cid].lastCallAdminAt = 0;
+      if (data.tempChannels[cid].panelMessageId === undefined) data.tempChannels[cid].panelMessageId = null;
+      if (data.tempChannels[cid].panelChannelId === undefined) data.tempChannels[cid].panelChannelId = null;
     }
     return data;
   } catch (e) {
@@ -207,6 +209,8 @@ class Database {
       hidden: false,
       soundboardDisabled: false,
       lastCallAdminAt: 0,
+      panelMessageId: null,
+      panelChannelId: null,
     };
     // apply saved config if exists
     const saved = this.getSavedConfig(guildId, ownerId);
@@ -237,6 +241,10 @@ class Database {
 
   setOwner(channelId, newOwnerId) {
     this.updateTemp(channelId, { ownerId: newOwnerId });
+  }
+
+  setPanel(channelId, messageId, channelId2) {
+    this.updateTemp(channelId, { panelMessageId: messageId, panelChannelId: channelId2 });
   }
 
   deleteTemp(channelId) {

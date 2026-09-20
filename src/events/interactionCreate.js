@@ -286,11 +286,8 @@ function renderName(template, member) {
 
 async function refreshPanel(interaction, vc) {
   try {
-    const { panelEmbed } = require('../utils/embeds');
-    const { getControlRows } = require('../utils/components');
-    const guild = interaction.guild;
-    const ownerMember = guild.members.cache.get(db.getTemp(vc.id).ownerId) || interaction.member;
-    const embed = panelEmbed(guild, vc, ownerMember);
-    const rows = getControlRows(guild.id, db.getTemp(vc.id));
+    const { updatePanel } = require('../utils/voiceManager');
+    const fresh = interaction.guild.channels.cache.get(vc.id) || vc;
+    await updatePanel(interaction.guild, fresh);
   } catch {}
 }

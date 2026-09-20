@@ -29,5 +29,14 @@ module.exports = {
     });
     console.log('🚀 CREPA Temp Voice (Plus Clone) ready! 9 buttons • Neon Red • English');
     console.log('🔊 JTC Mapping: 1549444850800140379 → 1549444775785140254 | 1548720642143162489 → 1547674387283714070');
+
+    // Periodic cleanup every 30s - Plus-style auto-cleanup for missed events (e.g., bot downtime)
+    const { cleanupEmptyTemps } = require('../utils/voiceManager');
+    setInterval(async () => {
+      for (const guild of client.guilds.cache.values()) {
+        try { await cleanupEmptyTemps(guild); } catch (e) { console.warn('[periodic cleanup]', e.message); }
+      }
+    }, 30000);
+    console.log('🧹 Periodic empty temp cleanup: every 30s');
   }
 };
