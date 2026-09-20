@@ -67,15 +67,11 @@ function panelEmbed(guild, channel, ownerMember) {
       `${ownerMember} You are the owner, control everything with the **9 buttons** below.\n\n` +
       `**${EM.lock} Status:** ${lockStatus} • **${EM.hide} Visibility:** ${hideStatus}\n` +
       `**${EM.limit} Limit:** ${channel.userLimit || '∞ Unlimited'} • **${EM.soundboard} Soundboard:** ${sbStatus}\n` +
-      `**${EM.save} Save:** ${saveStatus}\n\n` +
-      `**Use the 9 buttons below — each button is emoji only, no text**`
+      `**${EM.save} Save:** ${saveStatus}`
     )
     .addFields(
       { name: `${EM.call} Owner`, value: `<@${temp ? temp.ownerId : ownerMember.id}>`, inline: true },
       { name: `⏱️ Duration`, value: `<t:${createdAt}:R>\n<t:${createdAt}:T>`, inline: true },
-      { name: `${EM.limit} Members`, value: `**${memberCount}** / ${channel.userLimit || '∞'}\n${memberList.length > 1024 ? memberList.slice(0,1020)+'...' : memberList}`, inline: false },
-      { name: `${EM.kick} Buttons`, value: `${EM.lock} Lock • ${EM.hide} Hide • ${EM.kick} Kick • ${EM.rename} Rename • ${EM.limit} Limit`, inline: false },
-      { name: `${EM.claim} More`, value: `${EM.claim} Claim • ${EM.soundboard} Sound • ${EM.save} Save • ${EM.call} Call Admin`, inline: false },
     )
     .setThumbnail(ownerMember.displayAvatarURL({ extension: 'png', size: 256 }) || guild.iconURL() || undefined)
     .setFooter({ text: `CREPA • ${guild.name} • 9 Buttons • Neon Red`, iconURL: guild.iconURL() || undefined })
@@ -164,17 +160,17 @@ function helpEmbed() {
     .setTitle(`${EM.call} CREPA Temp Voice — 9 Buttons`)
     .setDescription(
       `Temporary voice channels with **9 neon red buttons** for CREPA.\n\n` +
-      `**⚡ How it works:** Join ➕ Join to Create and get your private channel with Panel + 9 buttons (each button **emoji only**).\n\n` +
+      `**⚡ How it works:** Join ➕ Join to Create and get your private channel with Panel + 9 buttons (each button **emoji + name**).\n\n` +
       `**🎛️ 9 Buttons:**\n` +
-      `${EM.lock} **Lock/Unlock** - Lock/Unlock channel\n` +
-      `${EM.hide} **Hide/Show** - Hide/Show channel\n` +
+      `${EM.lock} **Lock** - Lock/Unlock channel\n` +
+      `${EM.hide} **Hide** - Hide/Show channel\n` +
       `${EM.kick} **Kick** - Kick + block menu\n` +
       `${EM.rename} **Rename** - Change name via modal\n` +
       `${EM.limit} **Limit** - 0-99\n` +
       `${EM.claim} **Claim** - Claim when owner leaves + auto mention\n` +
       `${EM.soundboard} **Soundboard** - Toggle soundboard\n` +
-      `${EM.save} **Save/Reset** - Save settings for next time\n` +
-      `${EM.call} **Call Admins** - Mention <@&1548676119249821816>\n\n` +
+      `${EM.save} **Save** - Save settings for next time\n` +
+      `${EM.call} **Call Admin** - Mention <@&1548676119249821816>\n\n` +
       `**Admin Commands:**\n` +
       `\`/setup create\` - Create JTC\n` +
       `\`/setup config\` - Show config\n` +
